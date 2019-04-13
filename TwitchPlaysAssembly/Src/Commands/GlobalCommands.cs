@@ -1157,6 +1157,7 @@ static class GlobalCommands
 	[Command("(?:quit|end)(?:game)?", AccessLevel.SuperUser, AccessLevel.SuperUser)]
 	public static void QuitGame() => SceneManager.Instance.QuitGame();
 
+	/*
 	/// <name>Check For Updates</name>
 	/// <syntax>checkforupdates</syntax>
 	/// <summary>Checks to see if there is a new build of TP on Dropbox. Only applicable if you are using the Dropbox version of TP.</summary>
@@ -1177,7 +1178,7 @@ static class GlobalCommands
 	public static IEnumerator Update([Group(1)] bool force) => Updater.Update(force);
 
 	[Command("revert(?:game|tp|twitchplays)?", AccessLevel.SuperUser, AccessLevel.SuperUser)]
-	public static IEnumerator Revert() => Updater.Revert();
+	public static IEnumerator Revert() => Updater.Revert();*/
 
 	/// <name>Reset Leaderboard</name>
 	/// <syntax>leaderboard reset</syntax>

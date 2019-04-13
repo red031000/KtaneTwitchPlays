@@ -12,7 +12,61 @@ MonoBehaviour:
   m_Name: ModConfig
   m_EditorClassIdentifier: 
   id: Twitch Plays
-  title: Twitch Plays
-  version: 1
+  title: Twitch Plays KTaNE
+  description: '[h1]Twitch Plays: Keep Talking and Nobody Explodes[/h1]
+
+
+    This mod adds Twitch Chat direct control into Keep Talking and Nobody Explodes,
+    originally created by Bashly, it has been expanded and built upon by many contributors.
+
+
+    [b]This mod requires extra setup for it to work correctly[/b]
+
+
+    Setup details can be found here: [url=https://github.com/samfun123/KtaneTwitchPlays/wiki/Setup#configuration]https://github.com/samfun123/KtaneTwitchPlays/wiki/Setup#configuration[/url]
+
+
+    If you experience any issues with this mod, please join the KTaNE discord (located
+    at [url=https://discord.gg/ktane]https://discord.gg/ktane[/url]) or submit an
+    issue at [url=https://github.com/samfun123/KtaneTwitchPlays/issues]https://github.com/samfun123/KtaneTwitchPlays/issues[/url]
+
+
+    Please also consider joining the [url=https://discord.gg/CYVWy3n]Twitch Plays
+    KTaNE dedicated discord[/url]
+
+
+    [h1]Contributors[/h1]
+
+    [list]
+
+    [*] samfun123
+
+    [*] Caitsith2
+
+    [*] red031000
+
+    [*] Timwi
+
+    [*] ashthebash/Bashly
+
+    [*] River
+
+    [*] elias5891
+
+    [*] Hexicube
+
+    [*] bmn
+
+    [*] Kaito Sinclaire
+
+    [*] Strike_Kaboom
+
+    [*] Qkrisi
+
+    [*] MrPeanut1028
+
+    [/list]'
+  version: 2020.08.26
   outputFolder: C:\Program Files (x86)\Steam\steamapps\common\Keep Talking and Nobody
     Explodes\mods
+  previewImage: {fileID: 2800000, guid: fc38eff07fb2f51469ac309cca164e26, type: 3}

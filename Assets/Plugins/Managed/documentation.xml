@@ -723,18 +723,6 @@
             <summary>Quits KTANE.</summary>
             <restriction>SuperUser</restriction>
         </member>
-        <member name="M:GlobalCommands.CheckForUpdates">
-            <name>Check For Updates</name>
-            <syntax>checkforupdates</syntax>
-            <summary>Checks to see if there is a new build of TP on Dropbox. Only applicable if you are using the Dropbox version of TP.</summary>
-            <restriction>SuperUser</restriction>
-        </member>
-        <member name="M:GlobalCommands.Update(System.Boolean)">
-            <name>Update</name>
-            <syntax>update\nupdate force</syntax>
-            <summary>If there is an update available, installs it and restarts the game. Adding the word "force" will update regardless if there is an update available. Only applicable if you are using the Dropbox version of TP.</summary>
-            <restriction>SuperUser</restriction>
-        </member>
         <member name="M:GlobalCommands.ResetLeaderboard(System.String,System.Boolean)">
             <name>Reset Leaderboard</name>
             <syntax>leaderboard reset</syntax>

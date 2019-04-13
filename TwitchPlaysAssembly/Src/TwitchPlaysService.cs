@@ -229,11 +229,11 @@ public class TwitchPlaysService : MonoBehaviour
 		OtherModes.RefreshModes(state);
 
 		// Automatically check for updates after a round is finished or when entering the setup state but never more than once per hour.
-		bool hourPassed = DateTime.Now.Subtract(Updater.LastCheck).TotalHours >= 1;
+		/*bool hourPassed = DateTime.Now.Subtract(Updater.LastCheck).TotalHours >= 1;
 		if ((state == KMGameInfo.State.PostGame || state == KMGameInfo.State.Setup) && hourPassed && !Updater.UpdateAvailable)
 		{
 			_coroutinesToStart.Enqueue(AutomaticUpdateCheck());
-		}
+		}*/
 
 		switch (state)
 		{
