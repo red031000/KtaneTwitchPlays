@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Assets.Scripts.Mods;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -60,6 +59,8 @@ static class GlobalCommands
 	public static void VsMode([Group(1)] bool any, [Group(2)] bool on, string user, bool isWhisper) => SetGameMode(TwitchPlaysMode.VS, !any, on, user, isWhisper, false, TwitchPlaySettings.data.VsModeCommandDisabled);
 	[Command(@"zenmode( *(on)| *off)?")]
 	public static void ZenMode([Group(1)] bool any, [Group(2)] bool on, string user, bool isWhisper) => SetGameMode(TwitchPlaysMode.Zen, !any, on, user, isWhisper, TwitchPlaySettings.data.EnableZenModeForEveryone, TwitchPlaySettings.data.ZenModeCommandDisabled);
+	[Command(@"rpgmode( *(on)| *off)?")]
+	public static void RpgMode([Group(1)] bool any, [Group(2)] bool on, string user, bool isWhisper) => SetRpgMode(!any, on, user, isWhisper, false, TwitchPlaySettings.data.RpgModeCommandDisabled);
 
 	[Command(@"modes?")]
 	public static void ShowMode(string user, bool isWhisper)
@@ -67,6 +68,8 @@ static class GlobalCommands
 		IRCConnection.SendMessage(string.Format("{0} mode is currently enabled. The next round is set to {1} mode.", OtherModes.GetName(OtherModes.currentMode), OtherModes.GetName(OtherModes.nextMode)), user, !isWhisper);
 		if (TwitchPlaySettings.data.AnarchyMode)
 			IRCConnection.SendMessage("We are currently in anarchy mode.", user, !isWhisper);
+		if (TwitchPlaySettings.data.RpgMode)
+			IRCConnection.SendMessage("We are currently in RPG mode.", user, !isWhisper);
 	}
 
 	[Command(@"resetusers? +(.+)", AccessLevel.SuperUser, AccessLevel.SuperUser)]
@@ -139,10 +142,11 @@ static class GlobalCommands
 	public static void ReadSetting([Group(1)] string settingName, string user, bool isWhisper) => IRCConnection.SendMessage(TwitchPlaySettings.GetSetting(settingName), user, !isWhisper);
 
 	[Command(@"(?:write|change|set) *settings? +(\S+) +(.+)", AccessLevel.SuperUser, AccessLevel.SuperUser)]
-	public static void WriteSetting([Group(1)] string settingName, [Group(2)] string newValue, string user, bool isWhisper)
+	public static void WriteSetting([Group(1)] string settingName, [Group(2)] string newValue, string user, bool isWhisper, bool suppress = false)
 	{
 		var result = TwitchPlaySettings.ChangeSetting(settingName, newValue);
-		IRCConnection.SendMessage(result.Second, user, !isWhisper);
+		if (!suppress)
+			IRCConnection.SendMessage(result.Second, user, !isWhisper);
 		if (result.First)
 			TwitchPlaySettings.WriteDataToFile();
 	}
@@ -963,6 +967,23 @@ static class GlobalCommands
 		else
 			OtherModes.Set(mode, on);
 		IRCConnection.SendMessage($"{OtherModes.GetName(OtherModes.nextMode)} mode will be enabled next round.", user, !isWhisper);
+	}
+
+	private static void SetRpgMode(bool toggle, bool on, string user, bool isWhisper, bool enabledForEveryone,
+		string disabledMessage)
+	{
+		if (!UserAccess.HasAccess(user, AccessLevel.Mod, true) && !enabledForEveryone &&
+		    !TwitchPlaySettings.data.AnarchyMode)
+		{
+			IRCConnection.SendMessage(string.Format(disabledMessage, user), user, !isWhisper);
+			return;
+		}
+
+		if (toggle)
+			OtherModes.nextRpg = !OtherModes.nextRpg;
+		else
+			OtherModes.nextRpg = on;
+		IRCConnection.SendMessage($"RPG mode will be enabled next round.", user, !isWhisper);
 	}
 
 	private static void ShowRank(Leaderboard.LeaderboardEntry entry, string targetUser, string user, bool isWhisper, bool numeric = false) => ShowRank(entry == null ? null : new[] { entry }, targetUser, user, isWhisper, numeric);

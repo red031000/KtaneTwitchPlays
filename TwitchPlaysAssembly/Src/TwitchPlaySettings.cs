@@ -11,6 +11,8 @@ public class TwitchPlaySettingsData
 {
 	public int SettingsVersion = 0;
 
+	public bool RpgMode = false;
+
 	public bool AnarchyMode = false;
 
 	public bool SkipModManagerInstructionScreen = false;
@@ -220,6 +222,7 @@ public class TwitchPlaySettingsData
 	public string TimeModeCommandDisabled = "@{0}, Only authorized users may enable/disable Time Mode";
 	public string VsModeCommandDisabled = "@{0}, Only authorized users may enable/disable VS Mode";
 	public string ZenModeCommandDisabled = "@{0}, Only authorized users may enable/disable Zen Mode";
+	public string RpgModeCommandDisabled = "@{0}, Only authorized users may enable/disable RPG Mode";
 	public string RunCommandDisabled = "@{0}, Only authorized users may use the !run command.";
 	public string ProfileCommandDisabled = "@{0}, profile management is currently disabled.";
 	public string RetryInactive = "Retry is inactive. Returning to hallway instead.";
@@ -429,6 +432,7 @@ public class TwitchPlaySettingsData
 		valid &= ValidateString(ref TimeModeCommandDisabled, data.TimeModeCommandDisabled, 1);
 		valid &= ValidateString(ref VsModeCommandDisabled, data.VsModeCommandDisabled, 1);
 		valid &= ValidateString(ref ZenModeCommandDisabled, data.ZenModeCommandDisabled, 1);
+		valid &= ValidateString(ref RpgModeCommandDisabled, data.RpgModeCommandDisabled, 1);
 		valid &= ValidateString(ref RetryInactive, data.RetryInactive, 0);
 
 		valid &= ValidateString(ref AddedUserPower, data.AddedUserPower, 2, SettingsVersion < 1);
@@ -519,17 +523,20 @@ public static class TwitchPlaySettings
 			data = SettingsConverter.Deserialize<TwitchPlaySettingsData>(File.ReadAllText(path));//JsonConvert.DeserializeObject<TwitchPlaySettingsData>(File.ReadAllText(path));
 			data.ValidateStrings();
 			WriteDataToFile();
+			OtherModes.nextRpg = data.RpgMode;
 		}
 		catch (FileNotFoundException)
 		{
 			DebugHelper.LogWarning($"TwitchPlayStrings: File {path} was not found.");
 			data = new TwitchPlaySettingsData();
 			WriteDataToFile();
+			OtherModes.nextRpg = data.RpgMode;
 			return false;
 		}
 		catch (Exception ex)
 		{
 			data = new TwitchPlaySettingsData();
+			OtherModes.nextRpg = data.RpgMode;
 			DebugHelper.LogException(ex);
 			return false;
 		}

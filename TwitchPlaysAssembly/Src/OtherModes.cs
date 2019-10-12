@@ -12,6 +12,7 @@ public static class OtherModes
 {
 	public static TwitchPlaysMode currentMode = TwitchPlaysMode.Normal;
 	public static TwitchPlaysMode nextMode = TwitchPlaysMode.Normal;
+	public static bool nextRpg;
 
 	public static string GetName(TwitchPlaysMode mode) => Enum.GetName(typeof(TwitchPlaysMode), mode);
 
@@ -42,6 +43,11 @@ public static class OtherModes
 	public static bool VSModeOn { get => InMode(TwitchPlaysMode.VS); set => Set(TwitchPlaysMode.VS, value); }
 	public static bool ZenModeOn { get => InMode(TwitchPlaysMode.Zen); set => Set(TwitchPlaysMode.Zen, value); }
 
+	public static bool RpgModeOn { get => TwitchPlaySettings.data.RpgMode;
+		set => GlobalCommands.WriteSetting("RpgMode", value.ToString(), TwitchPlaySettings.data.TwitchPlaysDebugUsername, false,
+			true);
+	}
+
 	public static float timedMultiplier = 9;
 	public static int goodHealth = 0;
 	public static int evilHealth = 0;
@@ -65,10 +71,20 @@ public static class OtherModes
 	{
 		_state = state;
 
-		if ((_state != KMGameInfo.State.PostGame && _state != KMGameInfo.State.Setup) || currentMode == nextMode) return;
+		if ((_state != KMGameInfo.State.PostGame && _state != KMGameInfo.State.Setup) || (currentMode == nextMode && RpgModeOn == nextRpg)) return;
 
-		currentMode = nextMode;
-		IRCConnection.SendMessageFormat("Mode is now set to: {0}", Enum.GetName(typeof(TwitchPlaysMode), currentMode));
+		if (currentMode != nextMode)
+		{
+			currentMode = nextMode;
+			IRCConnection.SendMessageFormat("Mode is now set to: {0}",
+				Enum.GetName(typeof(TwitchPlaysMode), currentMode));
+		}
+
+		if (RpgModeOn != nextRpg)
+		{
+			RpgModeOn = nextRpg;
+			IRCConnection.SendMessageFormat($"RPG Mode is now {(nextRpg ? "enabled" : "disabled")}");
+		}
 	}
 
 	public static float GetMultiplier() => timedMultiplier;
