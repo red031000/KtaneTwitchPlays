@@ -79,7 +79,13 @@ public class Leaderboard
 		}
 
 		[JsonConverter(typeof(StringEnumConverter))]
-		public OtherModes.Team? Team { get; set; } = null;
+		public OtherModes.Team? Team { get; set; }
+
+		[JsonConverter(typeof(StringEnumConverter))]
+		public OtherModes.Class? PrimaryClass { get; set; }
+
+		[JsonConverter(typeof(StringEnumConverter))]
+		public OtherModes.Class? SecondaryClass { get; set; }
 
 		[JsonIgnore]
 		private bool _active;
@@ -145,6 +151,30 @@ public class Leaderboard
 		entry.UserName = userName;
 		entry.UserColor = userColor;
 		return entry;
+	}
+
+	public OtherModes.Class? GetPrimaryClass(string userName)
+	{
+		LeaderboardEntry entry = GetEntry(userName);
+		return entry.PrimaryClass;
+	}
+
+	public OtherModes.Class? GetSecondaryClass(string userName)
+	{
+		LeaderboardEntry entry = GetEntry(userName);
+		return entry.SecondaryClass;
+	}
+
+	public void SetPrimaryClass(string userName, OtherModes.Class @class)
+	{
+		LeaderboardEntry entry = GetEntry(userName);
+		entry.PrimaryClass = @class;
+	}
+
+	public void SetSecondaryClass(string userName, OtherModes.Class @class)
+	{
+		LeaderboardEntry entry = GetEntry(userName);
+		entry.SecondaryClass = @class;
 	}
 
 	public void SetActivity(string userName, bool active)
@@ -379,6 +409,8 @@ public class Leaderboard
 		entry.LastAction = user.LastAction;
 		entry.RecordSoloTime = user.RecordSoloTime;
 		entry.Team = user.Team;
+		entry.PrimaryClass = user.PrimaryClass;
+		entry.SecondaryClass = user.SecondaryClass;
 		entry.TotalSoloTime = user.TotalSoloTime;
 		entry.TotalSoloClears = user.TotalSoloClears;
 

@@ -26,6 +26,14 @@ public static class OtherModes
 		Evil
 	}
 
+	public enum Class
+	{
+		Cleric,
+		Defender,
+		Trickster,
+		Wizard
+	}
+
 	public static bool Set(TwitchPlaysMode mode, bool state = true)
 	{
 		if (!state) mode = TwitchPlaysMode.Normal;
